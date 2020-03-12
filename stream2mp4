@@ -1,0 +1,33 @@
+if [ $# -gt 0 ] && ( [[ $1 == http://*.m3u8 ]] || [[ $1 == https://*.m3u8 ]] )
+then
+	m3u8URL=$1
+else
+	read -p "Enter the index.m3u8 URL of the stream you want to download: " m3u8URL
+	while [[ $m3u8URL != http://*.m3u8 ]] && [[ $m3u8URL != https://*.m3u8 ]]
+	do
+		read -p "Enter the index.m3u8 URL of the stream you want to download: " m3u8URL
+	done
+fi
+echo "\nStarting to convert $m3u8URL to MP4\n";
+
+if [ $# -gt 1 ]
+then
+	if [[ $2 == *.mp4 ]]
+	then
+		mp4name=$2;
+	else
+		mp4name="$2.mp4";
+	fi
+else
+
+	streamFileNameExt=$(echo "$m3u8URL" | sed 's:.*/::')
+	echo "the file name is: $streamFileNameExt";
+	streamFileName=$(echo "$streamFileNameExt" | awk -F'.' '{print $1}');
+	mp4name=$(echo ${streamFileName%.m3u8*});
+	mp4name="$mp4name.mp4";
+
+fi
+
+echo "The mp4 file created here would be: $mp4name";
+
+ffmpeg -i "$m3u8URL" -c copy -bsf:a aac_adtstoasc "$mp4name" -y 
