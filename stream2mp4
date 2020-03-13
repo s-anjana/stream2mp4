@@ -12,7 +12,7 @@ echo "\nStarting to convert $m3u8URL to MP4\n";
 
 if [ $# -gt 1 ]
 then
-	if [[ $2 == *.mp4 ]]
+	if [[ $2 == *.mp4 ]] || [[ $2 == *.mkv ]]
 	then
 		mp4name=$2;
 	else
