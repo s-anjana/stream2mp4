@@ -1,0 +1,15 @@
+on:
+  push:
+    tags: 'v*'
+
+jobs:
+  homebrew:
+    name: Stream2mp4 Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: s-anjana/bump-homebrew-formula-action@v1
+        with:
+          # A PR will be sent to github.com/s-anjana/homebrew-core to update this formula:
+          formula-name: stream2mp4
+        env:
+          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
